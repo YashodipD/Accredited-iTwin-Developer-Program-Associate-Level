@@ -5,7 +5,7 @@
 
 import "./App.scss";
 
-import type { ScreenViewport } from "@itwin/core-frontend";
+import type { IModelConnection, ScreenViewport } from "@itwin/core-frontend";
 import { FitViewTool, IModelApp, StandardViewId } from "@itwin/core-frontend";
 import { FillCentered } from "@itwin/core-react";
 import { ProgressLinear } from "@itwin/itwinui-react";
@@ -37,7 +37,10 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Auth } from "./Auth";
 import { history } from "./history";
-
+import { Visualization } from "./Visualization";
+import { SmartDeviceAPI } from "./SmartDeviceAPI";
+import { SmartDeviceDecorator } from "./components/decorators/SmartDeviceDecorator";
+import { SmartDeviceUiItemsProvider } from "./components/providers/SmartDeviceUiItemsProvider"
 const App: React.FC = () => {
   const [iModelId, setIModelId] = useState(process.env.IMJS_IMODEL_ID);
   const [iTwinId, setITwinId] = useState(process.env.IMJS_ITWIN_ID);
@@ -136,6 +139,14 @@ const App: React.FC = () => {
     MeasurementActionToolbar.setDefaultActionProvider();
   }, []);
 
+  const handleIModelConnected = (_imodel: IModelConnection) => {
+
+    IModelApp.viewManager.onViewOpen.addOnce(async (vp: ScreenViewport) => {
+      await Visualization.hideHouseExterior(vp);
+      console.log(await SmartDeviceAPI.getData());
+      IModelApp.viewManager.addDecorator(new SmartDeviceDecorator(vp))
+    })
+  }
   return (
     <div className="viewer-container">
       {!accessToken && (
@@ -182,7 +193,9 @@ const App: React.FC = () => {
             },
           }),
           new MeasureToolsUiItemsProvider(),
+          new SmartDeviceUiItemsProvider("SmartDeviceLocalization")
         ]}
+        onIModelConnected={handleIModelConnected}
       />
     </div>
   );

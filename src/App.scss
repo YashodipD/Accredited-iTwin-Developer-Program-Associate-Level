@@ -9,3 +9,21 @@
     width: 400px;
   }
 }
+
+.smart-table{
+  font-size: 12px;
+  width: 100%;
+
+  > tbody{
+    > tr:not(:first-child):hover{
+    cursor: pointer;
+    background-color: skyblue;
+  }
+  }
+  
+  > th,td{
+    border: 1px black solid;
+    padding: 8px;
+    text-align: left;
+  }
+}
