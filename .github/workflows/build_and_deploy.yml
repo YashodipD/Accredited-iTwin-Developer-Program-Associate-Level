@@ -17,11 +17,7 @@ jobs:
   # This job creates optimized build of IoT Visualizer project
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        # Setting up default working space to run the commands
-        working-directory: ./IoTVisualizer/  
+    runs-on: ubuntu-latest 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -31,16 +27,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          # Cache dependencies for projects
-          cache-dependency-path: "./IoTVisualizer/package-lock.json"
       # Getting information about events when pipline triggers
       - name: Github action event information
         run: |
           echo github.event_name - ${{github.event_name}}   
           echo github.event.pull_request.merged - ${{github.event.pull_request.merged }}
           echo github.event.action - ${{github.event.action}}
-          echo IoT Visualizer running - ${{ needs.changes_deployment.outputs.IoTVisualizer}}
       # Install dependencies for projects
       - name: Install dependencies
         run: npm ci
