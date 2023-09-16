@@ -38,7 +38,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Auth } from "./Auth";
 import { history } from "./history";
 import { Visualization } from "./Visualization";
-import { SmartDeviceAPI } from "./SmartDeviceAPI";
 import { SmartDeviceDecorator } from "./components/decorators/SmartDeviceDecorator";
 import { SmartDeviceUiItemsProvider } from "./components/providers/SmartDeviceUiItemsProvider"
 const App: React.FC = () => {
@@ -131,7 +130,7 @@ const App: React.FC = () => {
     [viewConfiguration]
   );
 
-  const onIModelAppInit = useCallback(async () => {
+  const handleIModelAppInit = useCallback(async () => {
     // iModel now initialized
     await TreeWidget.initialize();
     await PropertyGridManager.initialize();
@@ -143,7 +142,6 @@ const App: React.FC = () => {
 
     IModelApp.viewManager.onViewOpen.addOnce(async (vp: ScreenViewport) => {
       await Visualization.hideHouseExterior(vp);
-      console.log(await SmartDeviceAPI.getData());
       IModelApp.viewManager.addDecorator(new SmartDeviceDecorator(vp))
     })
   }
@@ -163,7 +161,7 @@ const App: React.FC = () => {
         authClient={authClient}
         viewCreatorOptions={viewCreatorOptions}
         enablePerformanceMonitors={true} // see description in the README (https://www.npmjs.com/package/@itwin/web-viewer-react)
-        onIModelAppInit={onIModelAppInit}
+        onIModelAppInit={handleIModelAppInit}
         uiProviders={[
           new ViewerNavigationToolsProvider(),
           new ViewerContentToolsProvider({

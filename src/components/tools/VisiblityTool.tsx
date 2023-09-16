@@ -9,7 +9,7 @@ import { SvgVisibilityEmphasize } from "@itwin/itwinui-icons-react";
 import { Visualization } from "./../../Visualization";
 
 /**
- * This tools acts as an immediate tool and clears the graphics. For more information about Immediate Tools and why you should used them,
+ * This tools acts as an immediate tool and hides walls whenever runs. For more information about Immediate Tools and why you should used them,
  * see this learning page - https://www.itwinjs.org/learning/frontend/tools/#immediate-tools
 */
 export class VisibilityTool extends Tool {

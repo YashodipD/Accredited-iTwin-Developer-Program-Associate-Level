@@ -18,7 +18,7 @@ export class SmartDeviceDecorator implements Decorator {
         const results = UiFramework.getIModelConnection()!.createQueryReader(query, undefined, { rowFormat: QueryRowFormat.UseJsPropertyNames })
         return (await results.toArray()).map((element) => element);
 
-        //chapter 6 lesson 1 is broken
+        //chapter 6 lesson 1 is broken from youtube playlist 16-09-2023
         /*  const values = [];
          for await (const row of results) {
              values.push(row);
