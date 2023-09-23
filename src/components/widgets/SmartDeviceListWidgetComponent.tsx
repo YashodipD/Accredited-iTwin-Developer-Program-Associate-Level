@@ -9,9 +9,9 @@ export function SmartDeviceListWidgetComponent() {
         (async () => {
             const values = await SmartDeviceDecorator.getSmartDeviceData();
             const tabelList: JSX.Element[] = [];
-            values.forEach((value) => {
+            values.forEach((value, i) => {
                 tabelList.push(
-                    <tr onClick={() => {
+                    <tr key={i} onClick={() => {
                         IModelApp.viewManager.selectedView?.zoomToElements(value.id, { animateFrustumChange: true, standardViewId: StandardViewId.RightIso });
                     }}>
                         <td>{value.smartDeviceType}</td>
